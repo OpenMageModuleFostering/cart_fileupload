@@ -46,7 +46,8 @@ class DD_Upload_IndexController extends Mage_Core_Controller_Front_Action {
                         Mage::getSingleton('core/session')->setData($arrData);
                         Mage::getSingleton('core/session')->setFlag($flag);
                         $this->_redirect('checkout/cart');
-                        $message = $this->__($filetype . ' type file has been uploaded successfully.');
+                        //$message = $this->__($filetype . ' type file has been uploaded successfully.');
+                        $message = $this->__('"'.$_FILES[$type]['name'] . '" has been uploaded successfully.');
                         Mage::getSingleton('core/session')->addSuccess($message);
                     } catch (Exception $e) {
                         if ($_flag == 1) {

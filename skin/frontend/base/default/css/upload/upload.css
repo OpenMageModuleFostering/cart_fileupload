@@ -68,6 +68,6 @@ and (max-device-width : 979px)  {
 }
 
 /******** 24-sep 2015 update ********/
-.order-info-box .box-content { width: 60%;}
+/*.order-info-box .box-content { width: 60%;}*/
 .order-info-box .box-content .fileupload-table td { padding:10px 15px 10px 0; width:25%; word-wrap: break-word;}
  
