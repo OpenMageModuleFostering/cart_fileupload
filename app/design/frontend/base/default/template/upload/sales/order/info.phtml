@@ -82,8 +82,7 @@
     </div>
 </div>
 <?php
-$enable = Mage::getStoreConfig("generalsettings/configuration/enable_module");
-if ($enable) {
+if (Mage::helper('upload')->isEnabled()) {
     ?>
 <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl("css/upload/upload.css") ?>">
     <div class="col1-set order-info-box fileupload">

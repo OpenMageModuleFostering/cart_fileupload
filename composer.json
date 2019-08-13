@@ -3,7 +3,7 @@
     "type": "magento-module",
     "license": "Open-Software-License-(OSL)",
     "homepage": "",
-    "description": "Customer can upload multiple files on cart page according to their needs and admin can see the uploaded files in order view page.",
+    "description": "Customer can upload multiple files on cart page and admin can see the uploaded files in order view page.",
     "authors": [
     {
         "name": "Dynamic Dreamz",

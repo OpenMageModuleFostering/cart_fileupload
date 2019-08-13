@@ -10,8 +10,7 @@
 <!--uploaded file Information-->
 <?php $_order = $this->getOrder() ?>
 <?php
-$enable = Mage::getStoreConfig("generalsettings/configuration/enable_module");
-if ($enable) {
+if (Mage::helper('upload')->isEnabled()) {
     ?>
     <div class="clear">
         <div class="entry-edit">

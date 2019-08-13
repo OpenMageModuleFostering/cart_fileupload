@@ -14,20 +14,22 @@ class DD_Upload_Model_Observer {
      * @param object $evt
      */
     public function saveQuoteAfter($evt) {
-        $quote = $evt->getQuote();
-        try {
-            $flag = '';
-            $data = Mage::getSingleton('core/session')->getData();
-            $flag = Mage::getSingleton('core/session')->getFlag();
-            if (isset($data['file_upload_path']) && $flag == 'on') {
-                $quote_id = $quote->getId();
-                Mage::getModel('upload/upload')->saveFile($quote_id, $data['file_upload_path'], $data['file_upload_type']);
-                Mage::getSingleton('core/session')->unsData();
-                Mage::getSingleton('core/session')->unsFlag();
-                $flag = 'off';
+        if (Mage::helper('upload')->isEnabled()) {
+            $quote = $evt->getQuote();
+            try {
+                $flag = '';
+                $data = Mage::getSingleton('core/session')->getData();
+                $flag = Mage::getSingleton('core/session')->getFlag();
+                if (isset($data['file_upload_path']) && $flag == 'on') {
+                    $quote_id = $quote->getId();
+                    Mage::getModel('upload/upload')->saveFile($quote_id, $data['file_upload_path'], $data['file_upload_type']);
+                    Mage::getSingleton('core/session')->unsData();
+                    Mage::getSingleton('core/session')->unsFlag();
+                    $flag = 'off';
+                }
+            } catch (Exception $e) {
+                Mage::log($e->getMessage());
             }
-        } catch (Exception $e) {
-            Mage::log($e->getMessage());
         }
     }
 
@@ -36,17 +38,19 @@ class DD_Upload_Model_Observer {
      * @param object $event
      */
     public function placeOrderAfter($event) {
-        try {
-            $order_id = $event->getEvent()->getOrder()->getId();
-            $order = Mage::getModel('sales/order')->load($order_id);
-            $quote_id = $order->getQuoteId();
-            $collection = Mage::getModel('upload/upload')->getCollection();
-            $collection->addFieldToFilter('quote_id', $quote_id);
-            foreach ($collection as $object) {
-                Mage::getModel('upload/order')->saveFile($order_id, $object->getFilename(), $object->getType());
+        if (Mage::helper('upload')->isEnabled()) {
+            try {
+                $order_id = $event->getEvent()->getOrder()->getId();
+                $order = Mage::getModel('sales/order')->load($order_id);
+                $quote_id = $order->getQuoteId();
+                $collection = Mage::getModel('upload/upload')->getCollection();
+                $collection->addFieldToFilter('quote_id', $quote_id);
+                foreach ($collection as $object) {
+                    Mage::getModel('upload/order')->saveFile($order_id, $object->getFilename(), $object->getType());
+                }
+            } catch (Exception $e) {
+                Mage::log($e->getMessage());
             }
-        } catch (Exception $e) {
-            Mage::log($e->getMessage());
         }
     }
 

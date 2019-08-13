@@ -12,6 +12,15 @@ class DD_Upload_Helper_Data extends Mage_Core_Helper_Abstract {
     
     
     /**
+     * Check if module is enable or not
+     * @return int
+     */
+    
+    public function isEnabled() {
+        return Mage::getStoreConfig("generalsettings/configuration/enable_module");
+    }
+    
+    /**
      * Check uploaded file extnsion and return file type
      * @param string $ext
      * @return string

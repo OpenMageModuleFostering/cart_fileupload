@@ -6,8 +6,7 @@
 * @license    http://opensource.org/licenses/osl-3.0.php Open Software License (OSL)
 -->
 <?php echo $this->getChildHtml('cart_main'); ?>
-<?php $enable = Mage::getStoreConfig("generalsettings/configuration/enable_module"); ?>
-<?php if ($enable) { ?>
+<?php if (Mage::helper('upload')->isEnabled()) { ?>
     <div class="custom-upload-cart">
         <div class="custom-cart">
             <div class="dd_upload">
