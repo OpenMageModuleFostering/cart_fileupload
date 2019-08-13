@@ -1,0 +1,73 @@
+/**
+ * Dynamic Dreamz
+ * @category   design
+ * @package    base_default
+ * @copyright  Copyright (c) 2014-2015 Dynamic Dreamz. (http://www.dynamicdreamz.com/)
+ * @license    http://opensource.org/licenses/osl-3.0.php Open Software License (OSL)
+ */
+
+.custom-upload-cart { display: inline-block; vertical-align: top; width: 100%; float:left;margin: 0 0 20px;}
+.custom-upload-cart .cart-table { width: 100%; }
+.custom-cart { display: inline-block; vertical-align: top; width: 100%;}
+.dd_upload { border: 1px solid #ccc; display: block; padding: 8px;}
+.dd_upload > form { border-bottom: 1px solid #ccc; padding:0 0 5px 0;}
+
+.dyanamic-table01{ width:100%;}
+.dyanamic-table01 td { padding: 7px 0;}
+.dd_upload form + form{ border-bottom: 0;}
+
+.upload-002{ width:100%;}
+.left-site002{ float:left;}
+.right-site002{ float:right;margin-right: 25px;}
+
+.btn-upload{text-align:right;}
+.total_files{text-align:center;}
+.total_files0{text-align:left;}
+.btn-remove3{text-align:center;}
+.dd_upload{ background-color: #f4f4f4;}
+.dyanamic-table01 tr{ border-bottom:1px solid #e6e6e6}
+.dyanamic-table01 tr:last-child{border-bottom:0 none}
+.dyanamic-table01 td{ width:3%;}
+.dyanamic-table01 td + td{ width:7%;} 
+.dyanamic-table01 td + td +td{ width:78%;}
+.dyanamic-table01 td + td +td+td{ width:12%;}
+.remove_files {background: #ccc none repeat scroll 0 0;border-radius: 10px;  margin: 13px 0 0;}
+.dyanamic-table01 .value > label {vertical-align: top;}
+.dyanamic-table01 .value-img > label {vertical-align: top;}
+a.file-link label{ cursor:pointer;}
+a:hover.file-link label{text-decoration:underline;} 
+
+
+@media only screen 
+and (min-device-width : 980px) 
+and (max-device-width : 1024px)  { 
+
+    .custom-upload-cart {
+
+        width: 100%;
+    }
+
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 979px)  { 
+
+    .custom-upload-cart {
+
+        width: 100%;
+    }
+
+}
+
+
+@media only screen and (max-width: 767px){
+
+    .custom-upload-cart { width: 100%;}
+
+}
+
+/******** 24-sep 2015 update ********/
+.order-info-box .box-content { width: 60%;}
+.order-info-box .box-content .fileupload-table td { padding:10px 15px 10px 0; width:25%; word-wrap: break-word;}
+ 

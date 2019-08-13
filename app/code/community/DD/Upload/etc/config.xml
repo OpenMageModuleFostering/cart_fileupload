@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+
+<!--
+* Dynamic Dreamz
+* @category   DD
+* @package    DD_Upload
+* @copyright  Copyright (c) 2014-2015 Dynamic Dreamz. (http://www.dynamicdreamz.com/)
+* @license    http://opensource.org/licenses/osl-3.0.php Open Software License (OSL)
+-->
+
+<config>
+    <modules>
+        <DD_Upload>
+            <version>0.1.0</version>
+        </DD_Upload>
+    </modules>
+    
+    <default>
+        <generalsettings>
+            <configuration>                
+                <upload_filesize>3</upload_filesize>
+		<maxuploadlimit>3</maxuploadlimit>         
+            </configuration>      
+        </generalsettings>
+    </default>
+    <frontend>
+        <routers>
+            <upload>
+                <use>standard</use>
+                <args>
+                    <module>DD_Upload</module>
+                    <frontName>upload</frontName>
+                </args>
+            </upload>
+        </routers>
+        <layout>
+            <updates>
+                <upload>
+                    <file>upload.xml</file>
+                </upload>
+            </updates>
+        </layout>
+    </frontend>
+    <global>
+        <models>
+            <upload>
+                <class>DD_Upload_Model</class>
+                <resourceModel>upload_mysql4</resourceModel>
+            </upload>
+            <upload_mysql4>
+                <class>DD_Upload_Model_Mysql4</class>
+                <entities>		  
+                    <upload>
+                        <table>quote_file</table>
+                    </upload>		  
+                    <order>
+                        <table>order_file</table>
+                    </order>
+                </entities>
+            </upload_mysql4>
+        </models>
+        <helpers>
+            <upload>
+                <class>DD_Upload_Helper</class>
+            </upload>
+        </helpers>
+        <resources>
+            <upload_setup>
+                <setup>
+                    <module>DD_Upload</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </upload_setup>
+            <upload_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </upload_write>
+            <upload_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </upload_read>
+        </resources>
+        <events>
+            <sales_quote_save_after> 
+                <observers>
+                    <sales_quote_save_after_handler> 
+                        <type>singleton</type>
+                        <class>upload/observer</class>
+                        <method>saveQuoteAfter</method>
+                    </sales_quote_save_after_handler>
+                </observers>
+            </sales_quote_save_after>
+            
+            <sales_order_place_after>
+                <observers>
+                    <checkout_submit_all_after_handler>
+                        <type>singleton</type>
+                        <class>upload/observer</class>
+                        <method>placeOrderAfter</method>
+                    </checkout_submit_all_after_handler>
+                </observers>
+            </sales_order_place_after>
+        </events>
+    </global>
+    <admin>
+        <routers>
+            <upload>
+                <use>admin</use>
+                <args>
+                    <module>DD_Upload</module>
+                    <frontName>admin_upload</frontName>
+                </args>
+            </upload>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <upload>
+                    <file>upload.xml</file>
+                </upload>
+            </updates>
+        </layout>
+    </adminhtml>
+</config> 

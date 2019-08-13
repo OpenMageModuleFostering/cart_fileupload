@@ -1,0 +1,92 @@
+<!--
+* Dynamic Dreamz
+* @category   design
+* @package    default_default
+* @copyright  Copyright (c) 2014-2015 Dynamic Dreamz. (http://www.dynamicdreamz.com/)
+* @license    http://opensource.org/licenses/osl-3.0.php Open Software License (OSL)
+-->
+
+
+<!--uploaded file Information-->
+<?php $_order = $this->getOrder() ?>
+<?php
+$enable = Mage::getStoreConfig("generalsettings/configuration/enable_module");
+if ($enable) {
+    ?>
+    <div class="clear">
+        <div class="entry-edit">
+            <div class="entry-edit-head">
+                <h4 class="icon-head head-account"><?php echo Mage::helper('sales')->__('Uploaded File Information') ?></h4>
+                <div class="tools"><?php echo $this->getAccountEditLink() ?></div>
+            </div>
+            <div class="fieldset">
+                <div class="hor-scroll">
+                    <table cellspacing="0" class="form-list">
+                        <?php
+                        try {
+                            $collection = Mage::getModel('upload/order')->getFiles($_order);
+                            if (count($collection->getData()) > 0) {
+                                ?>
+                                <tr>
+                                    <td class="label"><label><strong><?php echo Mage::helper('sales')->__('File Type') ?></strong></label></td>
+                                    <td class="label"><label><strong><?php echo Mage::helper('sales')->__('Thumbnail') ?></strong></label></td>
+                                    <td class="label"><label><strong><?php echo Mage::helper('sales')->__('File Name') ?></strong></label></td>
+                                </tr>
+                                <?php
+                                $url = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'uploads';
+                                $path = Mage::getBaseDir('media') . DS . 'uploads';
+                                ?>
+                                <?php foreach ($collection as $data): ?>
+                                    <tr>
+                                        <td class="value"><label><?php echo $data['type'] ?></label></td>
+                                        <?php
+                                        $_ext = pathinfo($data['filename'], PATHINFO_EXTENSION);
+                                        if ($_ext == 'jpeg' || $_ext == 'jpg' || $_ext == 'png' || $_ext == 'ico' || $_ext == 'gif') {
+                                            if (file_exists($path . $data['filename'])) {
+                                                ?>
+                                                <td class="value"><a href="<?php echo $url . $data['filename']; ?>" target="_blank"><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'uploads' . $data['filename']; ?>" height="35" width="40"></a></td>
+                                            <?php } else { ?>
+                                                <td class="value"><a href="<?php echo $url . $data['filename']; ?>" target="_blank"><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'uploads' . DS . 'icons/default.png'; ?>" height="40" width="45"></a></td>
+                                                <?php
+                                            }
+                                        } else {
+                                            ?>
+                                            <td class="value">
+                                                <a href="<?php echo $url . $data['filename']; ?>" target="_blank">
+                                                    <?php if (Mage::helper('upload')->checkFileType($_ext) == 'Unknown') { ?>
+                                                        <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'uploads' . DS . 'icons/unknown.png'; ?>" height="40" width="45">
+                                                    <?php } else if (!file_exists($path . $data['filename'])) { ?>
+                                                        <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'uploads' . DS . 'icons/missing.png'; ?>" height="40" width="45">
+                                                    <?php } else { ?>
+                                                        <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'uploads' . DS . 'icons/' . $_ext . '.png'; ?>" height="40" width="45">
+                                                    <?php } ?>
+                                                </a>
+                                            </td>
+                                        <?php } ?>
+                                        <?php if (file_exists($path . $data['filename'])) { ?>
+                                            <td class="value"><a href="<?php echo $url . $data['filename']; ?>" target="_blank"><strong><?php echo $data['filename']; ?></strong></a></td>
+                                        <?php } else { ?>
+                                            <td class="value">
+                                                <a href="#"><strong><?php echo $data['filename']; ?></strong></a>
+                                                <i><?php echo $this->__('  ( File no longer exists )'); ?></i>
+                                            </td>
+
+                                        <?php } ?>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php } else { ?>
+                                <tr>
+                                    <td class="value"><?php echo $this->__('There is no file uploaded for this order') ?></td>
+                                </tr>
+                                <?php
+                            }
+                        } catch (Exception $e) {
+                            Mage::log($e->getMessage());
+                        }
+                        ?>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php } ?>

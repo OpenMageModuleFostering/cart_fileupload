@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+* Dynamic Dreamz
+* @category   design
+* @package    default_default
+* @copyright  Copyright (c) 2014-2015 Dynamic Dreamz. (http://www.dynamicdreamz.com/)
+* @license    http://opensource.org/licenses/osl-3.0.php Open Software License (OSL)
+-->
+<layout version="0.1.0">
+    <adminhtml_sales_order_view>
+        <reference name="order_info">
+        	<action method='setTemplate'><template>upload/sales/order/view/info.phtml</template></action>
+        	<block type="adminhtml/sales_order_view_info" name="order_info_main" template="sales/order/view/info.phtml"></block>
+            <block type="adminhtml/sales_order_view" name="uploadfile" template='upload/sales/order/view/uploadfile.phtml'/>
+        </reference>
+    </adminhtml_sales_order_view>
+</layout>

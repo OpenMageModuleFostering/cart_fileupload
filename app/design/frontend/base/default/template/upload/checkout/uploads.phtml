@@ -1,0 +1,88 @@
+<!--
+* Dynamic Dreamz
+* @category   design
+* @package    base_default
+* @copyright  Copyright (c) 2014-2015 Dynamic Dreamz. (http://www.dynamicdreamz.com/)
+* @license    http://opensource.org/licenses/osl-3.0.php Open Software License (OSL)
+-->
+<?php echo $this->getChildHtml('cart_main'); ?>
+<?php $enable = Mage::getStoreConfig("generalsettings/configuration/enable_module"); ?>
+<?php if ($enable) { ?>
+    <div class="custom-upload-cart">
+        <div class="custom-cart">
+            <div class="dd_upload">
+                <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl("css/upload/upload.css") ?>">
+                <form action="<?php echo Mage::getUrl('upload/index/upload') ?>" method="post" enctype="multipart/form-data">
+                    <table class="upload-002">
+                        <tr class="first last">
+                            <td class="a-right cart-footer-actions last">
+                                <span class="left-site002"><input id="file_upload" type="file" name="file" class="" /></span>
+                                <input id="file_upload_path" type="hidden" name="file_upload_path" class='required-entry'  />
+                                <input type="hidden" value='billing_file' name="file_upload_type" class='required-entry'  />
+                                <span class="right-site002"><input type="submit" value="Upload File" name="submit" class="button btn-upload"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                <?php
+                try {
+                    $quote_id = Mage::getSingleton('checkout/session')->getQuoteId();
+                    $collection = Mage::getModel('upload/upload')->getCurrentUploadedFiles($quote_id);
+                    ?>
+                    <form action="<?php echo Mage::getUrl('upload/index/massDelete') ?>" method="post" enctype="multipart/form-data">
+                        <table class="dyanamic-table01">
+                            <?php
+                            $_flag = 0;
+                            $imgUrl = '';
+                            ?>
+                            <?php foreach ($collection as $data): ?>
+                                <?php $_flag++; ?>
+                                <?php $filepath = str_replace('/', '&', $data['filename']); ?>
+                                <?php $filename = substr($data['filename'], strrpos($data['filename'], '/') + 1); ?>
+                                <tr>
+                                    <td><input type="checkbox" name="files[<?php echo $data['id'] ?>]" class="" id=""></td>
+                                    <?php
+                                    $_ext = pathinfo($data['filename'], PATHINFO_EXTENSION);
+                                    if ($_ext == 'jpeg' || $_ext == 'jpg' || $_ext == 'png' || $_ext == 'ico' || $_ext == 'gif') {
+                                        ?>
+                                        <td class="value-img"><a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'uploads' . $data['filename']; ?>" target="_blank"><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'uploads' . $data['filename']; ?>" height="35" width="40"></a></td>
+                                    <?php } else { ?>
+                                        <td class="value-img">
+                                            <a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'uploads' . $data['filename']; ?>" target="_blank">
+                                                <?php $fileType=Mage::helper('upload')->checkFileType($_ext);?>
+                                                <?php if ($fileType == 'Unknown') { ?>    
+                                                    <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'uploads' . DS . 'icons/unknown.png'; ?>" height="40" width="45">
+                                                <?php } else { ?>
+                                                    <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'uploads' . DS . 'icons/' . $_ext . '.png'; ?>" height="40" width="45">
+                                                <?php } ?>
+                                            </a>
+                                        </td>
+                                    <?php } ?>
+                                    <td class="value"><a class="file-link" href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'uploads' . $data['filename']; ?>" target="_blank" value=""><label><?php echo $filename; ?></label></a></td>
+                                    <td class="btn-remove3"><a class="btn-remove btn-remove2"  href="<?php echo Mage::getUrl('upload/index/delete', array('id' => $data['id'], 'filename' => $filename, 'filepath' => $filepath)) ?>" title="Remove File"></a></td>
+                                <?php endforeach; ?>
+                            </tr>
+                            <tr>
+                                <?php if ($_flag > 0) { ?>
+                                        <td colspan="3" ><input class="remove_files button" id="remove_files" type="submit" value="Remove Files" name="submit"></td>
+                                    <td  class="total_files"><?php echo $this->__("Total (".$_flag.") files.")?></td>
+                                <?php } else { ?>
+                                    <!--<td colspan="3" align=""><input style="display: none" class="remove_files" id="remove_files" type="submit" value="Remove Files" name="submit"></td>-->
+                                    <td class="total_files0"colspan="4"><?php echo $this->__("Total (".$_flag.") files.")?></td>
+                                    <?php } ?>
+                            </tr>
+                        </table>
+                    </form>
+
+                </div>
+                <?php
+            } catch (Exception $e) {
+                Mage::getSingleton("core/session")->addError("Opps..Some Error Occured...!!!");
+                Mage::log($e->getMessage());
+            }
+            ?>
+        </div>
+    </div>
+    <?php
+}
+?>
