@@ -4,7 +4,7 @@
         <DD_Upload>
             <active>true</active>
             <codePool>community</codePool>
-            <version>0.1.0</version>
+            <version>1.0.1</version>
         </DD_Upload>
     </modules>
 </config>
