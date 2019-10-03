@@ -1,7 +1,7 @@
 {
-    "name": "OpenMageModuleFostering\/Cart_Fileupload",
+    "name": "openmage-module-fostering\/cart_fileupload",
     "type": "magento-module",
-    "license": "Open-Software-License-(OSL)",
+    "license": "OSL-3.0",
     "homepage": "",
     "description": "Customer can upload multiple files on cart page and admin can see the uploaded files in order view page.",
     "authors": [
